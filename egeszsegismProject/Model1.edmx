@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FeladatFajtaListaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FeladatFajta" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FeladatMoTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FeladatMoPdf" Type="nvarchar" MaxLength="100" />
+          <Property Name="Szelesseg" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Magassag" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Kep" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="FeladatTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FeladatPdf" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ev" Type="int" />
+          <Property Name="Honap" Type="nvarchar" MaxLength="50" />
+          <Property Name="FeladatSorszama" Type="int" />
+          <Property Name="FeladatTipusFK" Type="int" />
+          <Property Name="Szelesseg" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Magassag" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Kep" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="FeladatTipusTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FeladatFajtaFK" Type="int" />
+          <Property Name="FeladatTipus" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="TemakorFeladatKapcsolo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FeladatFK" Type="int" />
+          <Property Name="TemaFK" Type="int" />
+        </EntityType>
+        <EntityType Name="TemakorListaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Temakor" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TemaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemakorFK" Type="int" />
+          <Property Name="Tema" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_FeladatMoTabla_ToFeladatTabla">
+          <End Role="FeladatTabla" Type="Self.FeladatTabla" Multiplicity="1" />
+          <End Role="FeladatMoTabla" Type="Self.FeladatMoTabla" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatMoTabla">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feladatTabla_ToFeladatTipusTabla">
+          <End Role="FeladatTipusTabla" Type="Self.FeladatTipusTabla" Multiplicity="0..1" />
+          <End Role="FeladatTabla" Type="Self.FeladatTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTipusTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatTabla">
+              <PropertyRef Name="FeladatTipusFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeladatTipusTabla_FeladatFajtaListaTabla">
+          <End Role="FeladatFajtaListaTabla" Type="Self.FeladatFajtaListaTabla" Multiplicity="0..1" />
+          <End Role="FeladatTipusTabla" Type="Self.FeladatTipusTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatFajtaListaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatTipusTabla">
+              <PropertyRef Name="FeladatFajtaFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemakorFeladatKapcsolo_ToFeladatTabla">
+          <End Role="FeladatTabla" Type="Self.FeladatTabla" Multiplicity="0..1" />
+          <End Role="TemakorFeladatKapcsolo" Type="Self.TemakorFeladatKapcsolo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemakorFeladatKapcsolo">
+              <PropertyRef Name="FeladatFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemakorFeladatKapcsolo_ToTemakorTabla">
+          <End Role="TemaTabla" Type="Self.TemaTabla" Multiplicity="0..1" />
+          <End Role="TemakorFeladatKapcsolo" Type="Self.TemakorFeladatKapcsolo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemakorFeladatKapcsolo">
+              <PropertyRef Name="TemaFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemaTabla_ToTemakorListaTabla">
+          <End Role="TemakorListaTabla" Type="Self.TemakorListaTabla" Multiplicity="0..1" />
+          <End Role="TemaTabla" Type="Self.TemaTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemakorListaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemaTabla">
+              <PropertyRef Name="TemakorFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="FeladatFajtaListaTabla" EntityType="Self.FeladatFajtaListaTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeladatMoTabla" EntityType="Self.FeladatMoTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeladatTabla" EntityType="Self.FeladatTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeladatTipusTabla" EntityType="Self.FeladatTipusTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemakorFeladatKapcsolo" EntityType="Self.TemakorFeladatKapcsolo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemakorListaTabla" EntityType="Self.TemakorListaTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemaTabla" EntityType="Self.TemaTabla" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FeladatMoTabla_ToFeladatTabla" Association="Self.FK_FeladatMoTabla_ToFeladatTabla">
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+            <End Role="FeladatMoTabla" EntitySet="FeladatMoTabla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feladatTabla_ToFeladatTipusTabla" Association="Self.FK_feladatTabla_ToFeladatTipusTabla">
+            <End Role="FeladatTipusTabla" EntitySet="FeladatTipusTabla" />
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeladatTipusTabla_FeladatFajtaListaTabla" Association="Self.FK_FeladatTipusTabla_FeladatFajtaListaTabla">
+            <End Role="FeladatFajtaListaTabla" EntitySet="FeladatFajtaListaTabla" />
+            <End Role="FeladatTipusTabla" EntitySet="FeladatTipusTabla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemakorFeladatKapcsolo_ToFeladatTabla" Association="Self.FK_TemakorFeladatKapcsolo_ToFeladatTabla">
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+            <End Role="TemakorFeladatKapcsolo" EntitySet="TemakorFeladatKapcsolo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemakorFeladatKapcsolo_ToTemakorTabla" Association="Self.FK_TemakorFeladatKapcsolo_ToTemakorTabla">
+            <End Role="TemaTabla" EntitySet="TemaTabla" />
+            <End Role="TemakorFeladatKapcsolo" EntitySet="TemakorFeladatKapcsolo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemaTabla_ToTemakorListaTabla" Association="Self.FK_TemaTabla_ToTemakorListaTabla">
+            <End Role="TemakorListaTabla" EntitySet="TemakorListaTabla" />
+            <End Role="TemaTabla" EntitySet="TemaTabla" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FeladatFajtaListaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FeladatFajta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FeladatTipusTabla" Relationship="Self.FK_FeladatTipusTabla_FeladatFajtaListaTabla" FromRole="FeladatFajtaListaTabla" ToRole="FeladatTipusTabla" />
+        </EntityType>
+        <EntityType Name="FeladatTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FeladatPdf" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ev" Type="Int32" />
+          <Property Name="Honap" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FeladatSorszama" Type="Int32" />
+          <Property Name="FeladatTipusFK" Type="Int32" />
+          <Property Name="Szelesseg" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Magassag" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Kep" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="FeladatTipusTabla" Relationship="Self.FK_feladatTabla_ToFeladatTipusTabla" FromRole="FeladatTabla" ToRole="FeladatTipusTabla" />
+          <NavigationProperty Name="TemakorFeladatKapcsolo" Relationship="Self.FK_TemakorFeladatKapcsolo_ToFeladatTabla" FromRole="FeladatTabla" ToRole="TemakorFeladatKapcsolo" />
+          <NavigationProperty Name="FeladatMoTabla" Relationship="Database1Model.FK_FeladatMoTabla_ToFeladatTabla" FromRole="FeladatTabla" ToRole="FeladatMoTabla" />
+        </EntityType>
+        <EntityType Name="FeladatTipusTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FeladatFajtaFK" Type="Int32" />
+          <Property Name="FeladatTipus" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FeladatFajtaListaTabla" Relationship="Self.FK_FeladatTipusTabla_FeladatFajtaListaTabla" FromRole="FeladatTipusTabla" ToRole="FeladatFajtaListaTabla" />
+          <NavigationProperty Name="FeladatTabla" Relationship="Self.FK_feladatTabla_ToFeladatTipusTabla" FromRole="FeladatTipusTabla" ToRole="FeladatTabla" />
+        </EntityType>
+        <EntityType Name="TemakorFeladatKapcsolo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FeladatFK" Type="Int32" />
+          <Property Name="TemaFK" Type="Int32" />
+          <NavigationProperty Name="FeladatTabla" Relationship="Self.FK_TemakorFeladatKapcsolo_ToFeladatTabla" FromRole="TemakorFeladatKapcsolo" ToRole="FeladatTabla" />
+          <NavigationProperty Name="TemaTabla" Relationship="Self.FK_TemakorFeladatKapcsolo_ToTemakorTabla" FromRole="TemakorFeladatKapcsolo" ToRole="TemaTabla" />
+        </EntityType>
+        <EntityType Name="TemaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemakorFK" Type="Int32" />
+          <Property Name="Tema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TemakorFeladatKapcsolo" Relationship="Self.FK_TemakorFeladatKapcsolo_ToTemakorTabla" FromRole="TemaTabla" ToRole="TemakorFeladatKapcsolo" />
+          <NavigationProperty Name="TemakorListaTabla" Relationship="Database1Model.FK_TemaTabla_ToTemakorListaTabla" FromRole="TemaTabla" ToRole="TemakorListaTabla" />
+        </EntityType>
+        <Association Name="FK_FeladatTipusTabla_FeladatFajtaListaTabla">
+          <End Role="FeladatFajtaListaTabla" Type="Self.FeladatFajtaListaTabla" Multiplicity="0..1" />
+          <End Role="FeladatTipusTabla" Type="Self.FeladatTipusTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatFajtaListaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatTipusTabla">
+              <PropertyRef Name="FeladatFajtaFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feladatTabla_ToFeladatTipusTabla">
+          <End Role="FeladatTipusTabla" Type="Self.FeladatTipusTabla" Multiplicity="0..1" />
+          <End Role="FeladatTabla" Type="Self.FeladatTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTipusTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatTabla">
+              <PropertyRef Name="FeladatTipusFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemakorFeladatKapcsolo_ToFeladatTabla">
+          <End Role="FeladatTabla" Type="Self.FeladatTabla" Multiplicity="0..1" />
+          <End Role="TemakorFeladatKapcsolo" Type="Self.TemakorFeladatKapcsolo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemakorFeladatKapcsolo">
+              <PropertyRef Name="FeladatFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TemakorFeladatKapcsolo_ToTemakorTabla">
+          <End Role="TemaTabla" Type="Self.TemaTabla" Multiplicity="0..1" />
+          <End Role="TemakorFeladatKapcsolo" Type="Self.TemakorFeladatKapcsolo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemakorFeladatKapcsolo">
+              <PropertyRef Name="TemaFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FeladatFajtaListaTabla" EntityType="Self.FeladatFajtaListaTabla" />
+          <EntitySet Name="FeladatTabla" EntityType="Self.FeladatTabla" />
+          <EntitySet Name="FeladatTipusTabla" EntityType="Self.FeladatTipusTabla" />
+          <EntitySet Name="TemakorFeladatKapcsolo" EntityType="Self.TemakorFeladatKapcsolo" />
+          <EntitySet Name="TemaTabla" EntityType="Self.TemaTabla" />
+          <AssociationSet Name="FK_FeladatTipusTabla_FeladatFajtaListaTabla" Association="Self.FK_FeladatTipusTabla_FeladatFajtaListaTabla">
+            <End Role="FeladatFajtaListaTabla" EntitySet="FeladatFajtaListaTabla" />
+            <End Role="FeladatTipusTabla" EntitySet="FeladatTipusTabla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feladatTabla_ToFeladatTipusTabla" Association="Self.FK_feladatTabla_ToFeladatTipusTabla">
+            <End Role="FeladatTipusTabla" EntitySet="FeladatTipusTabla" />
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemakorFeladatKapcsolo_ToFeladatTabla" Association="Self.FK_TemakorFeladatKapcsolo_ToFeladatTabla">
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+            <End Role="TemakorFeladatKapcsolo" EntitySet="TemakorFeladatKapcsolo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TemakorFeladatKapcsolo_ToTemakorTabla" Association="Self.FK_TemakorFeladatKapcsolo_ToTemakorTabla">
+            <End Role="TemaTabla" EntitySet="TemaTabla" />
+            <End Role="TemakorFeladatKapcsolo" EntitySet="TemakorFeladatKapcsolo" />
+          </AssociationSet>
+          <EntitySet Name="TemakorListaTabla" EntityType="Database1Model.TemakorListaTabla" />
+          <AssociationSet Name="FK_TemaTabla_ToTemakorListaTabla" Association="Database1Model.FK_TemaTabla_ToTemakorListaTabla">
+            <End Role="TemakorListaTabla" EntitySet="TemakorListaTabla" />
+            <End Role="TemaTabla" EntitySet="TemaTabla" />
+          </AssociationSet>
+          <EntitySet Name="FeladatMoTabla" EntityType="Database1Model.FeladatMoTabla" />
+          <AssociationSet Name="FK_FeladatMoTabla_ToFeladatTabla" Association="Database1Model.FK_FeladatMoTabla_ToFeladatTabla">
+            <End Role="FeladatTabla" EntitySet="FeladatTabla" />
+            <End Role="FeladatMoTabla" EntitySet="FeladatMoTabla" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TemakorListaTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Temakor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TemaTabla" Relationship="Database1Model.FK_TemaTabla_ToTemakorListaTabla" FromRole="TemakorListaTabla" ToRole="TemaTabla" />
+        </EntityType>
+        <Association Name="FK_TemaTabla_ToTemakorListaTabla">
+          <End Type="Database1Model.TemakorListaTabla" Role="TemakorListaTabla" Multiplicity="0..1" />
+          <End Type="Database1Model.TemaTabla" Role="TemaTabla" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TemakorListaTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TemaTabla">
+              <PropertyRef Name="TemakorFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FeladatMoTabla">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FeladatMoPdf" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Szelesseg" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Magassag" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Kep" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="FeladatTabla" Relationship="Database1Model.FK_FeladatMoTabla_ToFeladatTabla" FromRole="FeladatMoTabla" ToRole="FeladatTabla" />
+        </EntityType>
+        <Association Name="FK_FeladatMoTabla_ToFeladatTabla">
+          <End Type="Database1Model.FeladatTabla" Role="FeladatTabla" Multiplicity="1" />
+          <End Type="Database1Model.FeladatMoTabla" Role="FeladatMoTabla" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="FeladatTabla">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeladatMoTabla">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="FeladatFajtaListaTabla">
+            <EntityTypeMapping TypeName="Database1Model.FeladatFajtaListaTabla">
+              <MappingFragment StoreEntitySet="FeladatFajtaListaTabla">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FeladatFajta" ColumnName="FeladatFajta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeladatTabla">
+            <EntityTypeMapping TypeName="Database1Model.FeladatTabla">
+              <MappingFragment StoreEntitySet="FeladatTabla">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FeladatPdf" ColumnName="FeladatPdf" />
+                <ScalarProperty Name="Ev" ColumnName="Ev" />
+                <ScalarProperty Name="Honap" ColumnName="Honap" />
+                <ScalarProperty Name="FeladatSorszama" ColumnName="FeladatSorszama" />
+                <ScalarProperty Name="FeladatTipusFK" ColumnName="FeladatTipusFK" />
+                <ScalarProperty Name="Szelesseg" ColumnName="Szelesseg" />
+                <ScalarProperty Name="Magassag" ColumnName="Magassag" />
+                <ScalarProperty Name="Kep" ColumnName="Kep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeladatTipusTabla">
+            <EntityTypeMapping TypeName="Database1Model.FeladatTipusTabla">
+              <MappingFragment StoreEntitySet="FeladatTipusTabla">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FeladatFajtaFK" ColumnName="FeladatFajtaFK" />
+                <ScalarProperty Name="FeladatTipus" ColumnName="FeladatTipus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemakorFeladatKapcsolo">
+            <EntityTypeMapping TypeName="Database1Model.TemakorFeladatKapcsolo">
+              <MappingFragment StoreEntitySet="TemakorFeladatKapcsolo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FeladatFK" ColumnName="FeladatFK" />
+                <ScalarProperty Name="TemaFK" ColumnName="TemaFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemaTabla">
+            <EntityTypeMapping TypeName="Database1Model.TemaTabla">
+              <MappingFragment StoreEntitySet="TemaTabla">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TemakorFK" ColumnName="TemakorFK" />
+                <ScalarProperty Name="Tema" ColumnName="Tema" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemakorListaTabla">
+            <EntityTypeMapping TypeName="Database1Model.TemakorListaTabla">
+              <MappingFragment StoreEntitySet="TemakorListaTabla">
+                <ScalarProperty Name="Temakor" ColumnName="Temakor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeladatMoTabla">
+            <EntityTypeMapping TypeName="Database1Model.FeladatMoTabla">
+              <MappingFragment StoreEntitySet="FeladatMoTabla">
+                <ScalarProperty Name="Kep" ColumnName="Kep" />
+                <ScalarProperty Name="Magassag" ColumnName="Magassag" />
+                <ScalarProperty Name="Szelesseg" ColumnName="Szelesseg" />
+                <ScalarProperty Name="FeladatMoPdf" ColumnName="FeladatMoPdf" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d886849f8ced4619bf53da8561e19d2a" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="Database1Model.FeladatFajtaListaTabla" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.FeladatTabla" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.FeladatTipusTabla" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.TemakorFeladatKapcsolo" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.TemaTabla" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="Database1Model.FK_FeladatTipusTabla_FeladatFajtaListaTabla" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK_feladatTabla_ToFeladatTipusTabla" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK_TemakorFeladatKapcsolo_ToFeladatTabla" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK_TemakorFeladatKapcsolo_ToTemakorTabla" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Database1Model.TemakorListaTabla" Width="1.5" PointX="3" PointY="7.75" />
+        <AssociationConnector Association="Database1Model.FK_TemaTabla_ToTemakorListaTabla" />
+        <EntityTypeShape EntityType="Database1Model.FeladatMoTabla" Width="1.5" PointX="7.5" PointY="3.75" />
+        <AssociationConnector Association="Database1Model.FK_FeladatMoTabla_ToFeladatTabla" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
